@@ -32,6 +32,7 @@
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
     </button>
+<span class="float-right badge text-info"><?php echo shell_exec('sudo /usr/local/bin/ui-checkEditionARM');?></span>
 <span class="float-right badge text-success"><?php echo shell_exec('sudo /usr/local/bin/ui-checkEditionNat');?></span>
 <span class="float-right badge text-primary"><?php echo shell_exec('sudo /usr/local/bin/ui-checkEdition');?></span>
 
@@ -64,7 +65,7 @@
       <li class="nav-item">
         <a class="nav-link" href="!ddns.php">
           <i class="fas fa-fw fa-ethernet"></i>
-          <span>DDNS & WireGuard</span></a>
+          <span>DDNS & LINK</span></a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="!nodeMAN.php">
@@ -87,13 +88,8 @@
           <span>注销</span></a>
       </li>
     </ul>
-<script>
-function logout () {
-$.get('auth.php', {logout:'true'}, function(result){ window.location.href="index.php" });
-}
-</script>
 
-    <div id="content-wrapper">
+    <div id="content-wrapper" class="mx-auto" style="max-width: 1600px;">
 
       <div class="container-fluid">
 
@@ -109,7 +105,11 @@ $.get('auth.php', {logout:'true'}, function(result){ window.location.href="index
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-stream"></i>
-            节点编辑</div>
+            节点编辑
+<span class="float-right mt-n1 mb-n2">
+<button type="button" class="btn btn-outline-secondary btn-sm mt-1" style="border-Radius: 0px;" onclick="saveNode()">保存</button>
+</span>
+          </div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered table-striped" id="dataTable">
@@ -188,9 +188,6 @@ $.get('auth.php', {logout:'true'}, function(result){ window.location.href="index
                   </tr>
                 </tbody>
               </table>
-<span class="float-right">
-<button type="button" class="btn btn-primary" onclick="saveNode()">保存</button>
-</span>
             </div>
           </div>
         </div>
@@ -214,6 +211,10 @@ $.get('auth.php', {logout:'true'}, function(result){ window.location.href="index
   </div>
   <!-- /#wrapper -->
 <script>
+function logout () {
+$.get('auth.php', {logout:'true'}, function(result){ window.location.href="index.php" });
+}
+
 function saveNode() {
 nodename1=$("#nodename1").val();
 nodename2=$("#nodename2").val();

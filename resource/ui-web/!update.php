@@ -31,6 +31,7 @@
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
     </button>
+<span class="float-right badge text-info"><?php echo shell_exec('sudo /usr/local/bin/ui-checkEditionARM');?></span>
 <span class="float-right badge text-success"><?php echo shell_exec('sudo /usr/local/bin/ui-checkEditionNat');?></span>
 <span class="float-right badge text-primary"><?php echo shell_exec('sudo /usr/local/bin/ui-checkEdition');?></span>
 
@@ -63,7 +64,7 @@
       <li class="nav-item">
         <a class="nav-link" href="!ddns.php">
           <i class="fas fa-fw fa-ethernet"></i>
-          <span>DDNS & WireGuard</span></a>
+          <span>DDNS & LINK</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="!nodeMAN.php">
@@ -88,7 +89,7 @@
     </ul>
 
 
-    <div id="content-wrapper">
+    <div id="content-wrapper" class="mx-auto" style="max-width: 1600px;">
 
       <div class="container-fluid">
 
@@ -136,7 +137,7 @@
             <i class="fas fa-archive"></i>
             更新
         <span class="float-right mt-n1 mb-n2">
-        <button type="button" class="btn btn-outline-dark btn-sm mt-1" onclick="Rescue()">救援</button>
+        <button type="button" class="btn btn-outline-secondary btn-sm mt-1" onclick="Rescue()">救援</button>
         </span>
           </div>
           <div class="card-body">
@@ -182,7 +183,7 @@ $.get('auth.php', {logout:'true'}, function(result){ window.location.href="index
 }
 
 function backup(){
-$.get('backup.php', function(result){window.location.href = "/restore/0conf"});
+$.get('backup.php', function(result){window.location.href = "/restore/de_GWD_bak"});
 }
 
 function restore(){
@@ -191,7 +192,6 @@ var form_data = new FormData();
 form_data.append('file', file_data);
 $.ajax({
         url: 'restore.php',
-        dataType: 'zip',
         cache: false,
         contentType: false,
         processData: false,
@@ -207,7 +207,7 @@ window.location.reload(true);
 function update(){
 updateCMD=$('#updateCMD').val();
 $.get('update.php', {updateCMD:updateCMD}, function(result){});
-window.open('http://10.0.0.2:3000', 'popupWindow', 'width=800, height=600, scrollbars=yes');
+window.open('/ttyd', 'popupWindow', 'width=800, height=600, scrollbars=yes');
 }
 
 function Rescue(){
@@ -222,8 +222,8 @@ $(".sidebar").toggleClass("toggled");
   var fileName = $(this).val().split("\\").pop();
   $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 
-  if( fileName != "0conf" ){
-  alert("文件选择错误");
+  if( fileName != "de_GWD_bak" ){
+  alert("文件选择错误，备份文件名为 de_GWD_bak ");
   }
 
 });

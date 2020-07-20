@@ -12,7 +12,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>DDNS & WireGuard</title>
+  <title>DDNS & LINK</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -32,6 +32,7 @@
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
     </button>
+<span class="float-right badge text-info"><?php echo shell_exec('sudo /usr/local/bin/ui-checkEditionARM');?></span>
 <span class="float-right badge text-success"><?php echo shell_exec('sudo /usr/local/bin/ui-checkEditionNat');?></span>
 <span class="float-right badge text-primary"><?php echo shell_exec('sudo /usr/local/bin/ui-checkEdition');?></span>
 
@@ -64,7 +65,7 @@
       <li class="nav-item active">
         <a class="nav-link" href="!ddns.php">
           <i class="fas fa-fw fa-ethernet"></i>
-          <span>DDNS & WireGuard</span></a>
+          <span>DDNS & LINK</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="!nodeMAN.php">
@@ -89,7 +90,7 @@
     </ul>
 
 
-    <div id="content-wrapper">
+    <div id="content-wrapper" class="mx-auto" style="max-width: 1600px;">
 
       <div class="container-fluid">
 
@@ -102,7 +103,7 @@
         </ol>
 
         <!-- Page Content -->
-      <div class="col-md-6 input-group ml-auto mr-auto mb-3">
+      <div class="col-md-6 input-group mx-auto mb-3">
         <div class="input-group-prepend w-25">
           <span class="input-group-text justify-content-center w-100">Wan IP</span>
         </div>
@@ -112,26 +113,24 @@
       
         <div class="card mb-3">
           <div class="card-header">
-            <i class="fas fa-ethernet"></i>
+            <i class="fas fa-cloud"></i>
             CloudFlare DDNS
-          <span class="badge badge-pill badge-success my-auto ml-1"><?php echo shell_exec('sudo /usr/local/bin/ui-checkDDNScf');?></span>
 <span class="float-right mt-n1 mb-n2">
-<button type="button" class="btn btn-outline-dark btn-sm mt-1" style="border-Radius: 0px;" onclick="ddnsSaveCF()">开启</button>
-<button type="button" class="btn btn-outline-dark btn-sm mt-1" style="border-Radius: 0px;" onclick="ddnsStopCF()">关闭</button>
+<button type="button" class="btn btn-<?php echo shell_exec('sudo /usr/local/bin/ui-checkDDNScf');?> btn-sm mt-1" style="border-Radius: 0px;" onclick="ddnsSaveCF()">开启</button>
+<button type="button" class="btn btn-outline-secondary btn-sm mt-1" style="border-Radius: 0px;" onclick="ddnsStopCF()">关闭</button>
 </span>
           </div>
 
           <div class="card-body">
-  <div class="form-group">
-    <div class="form-row mb-3">
-      <div class="col-md-6 input-group mb-1">
+    <div class="form-row">
+      <div class="col-md-6 input-group my-2">
         <div class="input-group-prepend w-25">
           <span class="input-group-text justify-content-center w-100">域名</span>
         </div>
           <input type="text" id="CFdomain" class="form-control" value="<?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->ddns->ddnsCF->cfDomain ?>">
       </div>
 
-      <div class="col-md-6 input-group mb-1">
+      <div class="col-md-6 input-group my-2">
         <div class="input-group-prepend w-25">
           <span class="input-group-text justify-content-center w-100">Zone ID</span>
         </div>
@@ -140,40 +139,122 @@
     </div>
 
     <div class="form-row">
-      <div class="col-md-6 input-group mb-1">
+      <div class="col-md-6 input-group my-2">
         <div class="input-group-prepend w-25">
           <span class="input-group-text justify-content-center w-100">CF API KEY</span>
         </div>
           <input type="text" id="CFapikey" class="form-control" value="<?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->ddns->ddnsCF->cfAPIkey ?>">
       </div>
 
-      <div class="col-md-6 input-group mb-1">
+      <div class="col-md-6 input-group my-2">
         <div class="input-group-prepend w-25">
           <span class="input-group-text justify-content-center w-100">CF E-mail</span>
         </div>
           <input type="text" id="CFemail" class="form-control" value="<?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->ddns->ddnsCF->cfEmail ?>">
       </div>
     </div>
+          </div>
+        </div>
+
+
+          <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-bacon"></i>
+            FRP
+<span class="float-right mt-n1 mb-n2 ml-4" id="FRPbutton" style="display:none">
+<button type="button" class="btn btn-<?php echo shell_exec('sudo /usr/local/bin/ui-checkFRP'); ?> btn-sm mt-1" style="border-Radius: 0px;" onclick="onFRP()">开启</button>
+<button type="button" class="btn btn-outline-secondary btn-sm mt-1" style="border-Radius: 0px;" onclick="offFRP()">关闭</button>
+</span>
+<span class="float-right mt-n1 mb-n2">
+<button type="button" class="btn btn-outline-secondary btn-sm mt-1" style="border-Radius: 0px;" onclick="installFRP()">install</button>
+</span>
+          </div>
+
+          <div class="card-body" id="FRPbody" style="display:none">
+  <div class="form-row">
+      <div class="col-md-8">
+        <H6 class="my-auto mr-3">
+        <i class="fas fa-globe-asia my-1 ml-4 mr-2"></i>服务端：
+        </H6>
+      <div class="input-group my-2">
+        <div class="input-group-prepend col-xs-5">
+          <span class="input-group-text align-self-center">服务器域名</span>
+        </div>
+        <input type="text" id="FRPdomain" class="form-control" value="<?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->FRP->domain ?>">
+
+        <div class="input-group-append">
+          <span class="input-group-text align-self-center">Bind-Port</span>
+        </div>
+          <input type="text" id="FRPbindPort" class="form-control" style="max-width: 120px;" value="<?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->FRP->bindPort ?>">
+
+        <div class="input-group-append">
+          <span class="input-group-text align-self-center">Token</span>
+        </div>
+          <input type="text" id="FRPtoken" class="form-control" style="max-width: 120px;" value="<?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->FRP->token ?>">
+        <div class="input-group-prepend">
+          <button id="FRPbindProtocol" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"><?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->FRP->bindProtocol ?></button>
+            <div class="dropdown-menu">
+            <a class="dropdown-item" onclick="FRPbindTCP()" href="#">TCP</a>
+            <a class="dropdown-item" onclick="FRPbindKCP()" href="#">KCP</a>
+            </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="col-md-4">
+        <H6 class="my-auto mr-3">
+        <i class="fas fa-ethernet my-1 ml-4 mr-2"></i>本地端：
+        </H6>
+      <div class="input-group my-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text align-self-center">服务器端口</span>
+        </div>
+          <input type="text" id="FRPremotePort" class="form-control" style="max-width: 120px;" value="<?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->FRP->remotePort ?>">
+
+        <div class="input-group-append">
+          <span class="input-group-text align-self-center">本地端口</span>
+        </div>
+          <input type="text" id="FRPlocalPort" class="form-control" style="max-width: 120px;" value="<?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->FRP->localPort ?>">  
+
+        <div class="input-group-prepend">
+          <button id="FRPprotocol" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"><?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->FRP->protocol ?></button>
+            <div class="dropdown-menu">
+            <a class="dropdown-item" onclick="FRPprotocolTCP()" href="#">TCP</a>
+            <a class="dropdown-item" onclick="FRPprotocolUDP()" href="#">UDP</a>
+            </div>
+        </div>
+      </div>
+      </div>
   </div>
+
+    <div class="form-row mt-3">
+      <div class="col-md-12 input-group">
+        <input class="form-control" type="text" id="frpCMD" placeholder="服务端安装指令" value="" readonly>
+        <div class="input-group-append">
+          <button type="button" class="btn btn-secondary btn-sm" style="border-Radius: 0px;" onclick="genFRPcmd()">生成安装指令</button>
+        </div> 
+      </div>
+    </div>
           </div>
         </div>
 
 
         <div class="card mb-3">
           <div class="card-header">
-            <i class="fas fa-ethernet"></i>
+            <i class="fas fa-archway"></i>
             WireGuard Server
-          <span class="badge badge-pill badge-success my-auto ml-1"><?php echo shell_exec('sudo /usr/local/bin/ui-checkWG');?></span>
+<span class="float-right mt-n1 mb-n2 ml-4" id="WGbutton" style="display:none">
+<button type="button" class="btn btn-<?php echo shell_exec('sudo /usr/local/bin/ui-checkWG');?> btn-sm mt-1" style="border-Radius: 0px;" onclick="WGon()">开启</button>
+<button type="button" class="btn btn-outline-secondary btn-sm mt-1" style="border-Radius: 0px;" onclick="WGoff()">关闭</button>
+</span>
 <span class="float-right mt-n1 mb-n2">
-<button type="button" class="btn btn-outline-dark btn-sm mt-1 mr-5" style="border-Radius: 0px;" onclick="WGchangeKey()">重新生成密钥</button>
-<button type="button" class="btn btn-outline-dark btn-sm mt-1" style="border-Radius: 0px;" onclick="WGon()">开启</button>
-<button type="button" class="btn btn-outline-dark btn-sm mt-1" style="border-Radius: 0px;" onclick="WGoff()">关闭</button>
+<button type="button" class="btn btn-outline-secondary btn-sm mt-1" style="border-Radius: 0px;" onclick="installWG()">install</button>
 </span>
           </div>
-          <div class="card-body">
+          <div class="card-body" id="WGbody" style="display:none">
 
 <div class="form-row mb-3">
-      <div class="col-md-6 input-group mb-1 ml-auto mr-auto ">
+      <div class="col-md-6 input-group mb-1 mx-auto">
         <div class="input-group-prepend">
           <span class="input-group-text justify-content-center">Endpoint</span>
           <span class="input-group-text justify-content-center">域名/公网IP</span>
@@ -183,6 +264,7 @@
           <span class="input-group-text justify-content-center">UDP端口</span>
           </div>
           <input type="text" id="WGaddressport" class="form-control" value="<?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->wireguard->WGport ?>">
+          <button type="button" class="btn btn-secondary btn-sm" style="border-Radius: 0px;" onclick="WGchangeKey()">重新生成密钥</button>
       </div>
 </div>
 
@@ -269,7 +351,7 @@
 
 <span class="float-left text-secondary">
   <small>
-注：需要主路由映射所需UDP端口到de_GWD的地址。
+注：需要主路由映射所需UDP端口到de_GWD的地址。显示二维码的同时，即保存备注。
   </small>
 </span>
           </div>
@@ -419,6 +501,50 @@ function ddnsStopCF(){
 $.get('ddnsStopCF.php', function(result){window.location.reload();});
 }
 
+function FRPbindTCP(){$('#FRPbindProtocol').html("TCP"); };
+function FRPbindKCP(){$('#FRPbindProtocol').html("KCP"); };
+
+function FRPprotocolTCP(){$('#FRPprotocol').html("TCP"); };
+function FRPprotocolUDP(){$('#FRPprotocol').html("UDP"); };
+
+function installFRP(){
+$.get('installFRPc.php', function(result){});
+window.open('/ttyd', 'popupWindow', 'width=800, height=600, scrollbars=yes');
+};
+
+function onFRP(){
+FRPdomain=$('#FRPdomain').val();
+FRPbindPort=$('#FRPbindPort').val();
+FRPtoken=$('#FRPtoken').val();
+FRPbindProtocol=$('#FRPbindProtocol').html();
+FRPremotePort=$('#FRPremotePort').val();
+FRPlocalPort=$('#FRPlocalPort').val();
+FRPprotocol=$('#FRPprotocol').html();
+$.get('onFRP.php', {FRPdomain:FRPdomain, FRPbindPort:FRPbindPort, FRPtoken:FRPtoken, FRPbindProtocol:FRPbindProtocol, FRPremotePort:FRPremotePort, FRPlocalPort:FRPlocalPort, FRPprotocol:FRPprotocol}, function(result){ location.reload() });
+};
+
+function offFRP(){
+$.get('offFRP.php', function(result){window.location.reload();});
+};
+
+function genFRPcmd(){
+FRPdomain=$('#FRPdomain').val();
+FRPbindPort=$('#FRPbindPort').val();
+FRPtoken=$('#FRPtoken').val();
+FRPbindProtocol=$('#FRPbindProtocol').html();
+FRPremotePort=$('#FRPremotePort').val();
+FRPlocalPort=$('#FRPlocalPort').val();
+FRPprotocol=$('#FRPprotocol').html();
+$.get('genFRPcmd.php', {FRPdomain:FRPdomain, FRPbindPort:FRPbindPort, FRPtoken:FRPtoken, FRPbindProtocol:FRPbindProtocol, FRPremotePort:FRPremotePort, FRPlocalPort:FRPlocalPort, FRPprotocol:FRPprotocol}, function(data){
+$('#frpCMD').val(data);
+});
+};
+
+function installWG(){
+$.get('installWG.php', function(result){});
+window.open('/ttyd', 'popupWindow', 'width=800, height=600, scrollbars=yes');
+};
+
 function WGchangeKey(){
 $.get('WGchangeKey.php', function(result){window.location.reload();});
 }
@@ -449,6 +575,20 @@ $.get('WGmark.php', {WGmark1:WGmark1, WGmark2:WGmark2, WGmark3:WGmark3, WGmark4:
 window.onload = function() {
 $("body").toggleClass("sidebar-toggled");
 $(".sidebar").toggleClass("toggled");
+
+$.get("checkFRP.php", function(data) {
+if ($.trim(data) == "installed") {
+$("#FRPbutton").css("display", "block"); 
+$("#FRPbody").css("display", "block"); 
+};
+});
+
+$.get("checkWG.php", function(data) {
+if ($.trim(data) == "installed") {
+$("#WGbutton").css("display", "block");
+$("#WGbody").css("display", "block");
+};
+});
 
 $.get('WGqrTXT1.php', function(data){
 jQuery('#qrcode1').qrcode({width: 240,height: 240,correctLevel:0,text: data}); 

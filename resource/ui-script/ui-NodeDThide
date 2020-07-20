@@ -6,6 +6,7 @@ v2path=$(jq -r '.v2nodeForUpdate.path' /usr/local/bin/0conf)
 
 cat > /usr/local/bin/vtrui/config.json << EOF
 {
+  "dns":{"servers":["localhost"]},
   "inbounds":[
     {
     "port":9896,
@@ -19,7 +20,7 @@ cat > /usr/local/bin/vtrui/config.json << EOF
   "outbounds": [
     {
       "tag": "proxy",
-      "mux": {"enabled": true},
+      "mux": { "enabled": true },
       "protocol": "vmess",
       "settings": {
         "vnext": [
@@ -86,10 +87,12 @@ cat > /usr/local/bin/vtrui/config.json << EOF
     }
   ],
   "routing": {
+    "domainStrategy":"AsIs",
     "rules": [
       {
         "type": "field",
         "domain": [
+          "domain:netflix.ca",
           "domain:netflix.com",
           "domain:netflix.net",
           "domain:nflxext.com",
@@ -97,6 +100,8 @@ cat > /usr/local/bin/vtrui/config.json << EOF
           "domain:nflximg.net",
           "domain:nflxso.net",
           "domain:nflxvideo.net",
+          "domain:nflxsearch.net",
+          "domain:netflixinvestor.com",
           "domain:netflixdnstest0.com",
           "domain:netflixdnstest1.com",
           "domain:netflixdnstest2.com",
@@ -126,7 +131,7 @@ jq --arg uuidnum "$uuidnum" '.outbounds[1].settings.vnext[0].users[0].id=$uuidnu
 jq --arg v2path "$v2path" '.outbounds[1].streamSettings.wsSettings.path=$v2path' |\
 jq --arg domain "$domain" '.outbounds[1].streamSettings.tlsSettings.serverName=$domain' >/tmp/vtrui_temp && mv -f /tmp/vtrui_temp /usr/local/bin/vtrui/config.json
 
-sed -i '/div id="shnodedt" style=/c\<div id="shnodedt" style="display:none">' /var/www/html/index.php
+jq '.divertLan.display="none"' /usr/local/bin/0conf >/tmp/0conf_temp && mv -f /tmp/0conf_temp /usr/local/bin/0conf
 
 chmod 666 /usr/local/bin/vtrui/config.json
 chmod 666 /usr/local/bin/0conf

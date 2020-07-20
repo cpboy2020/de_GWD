@@ -31,6 +31,7 @@
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
     </button>
+<span class="float-right badge text-info"><?php echo shell_exec('sudo /usr/local/bin/ui-checkEditionARM');?></span>
 <span class="float-right badge text-success"><?php echo shell_exec('sudo /usr/local/bin/ui-checkEditionNat');?></span>
 <span class="float-right badge text-primary"><?php echo shell_exec('sudo /usr/local/bin/ui-checkEdition');?></span>
 
@@ -63,7 +64,7 @@
       <li class="nav-item">
         <a class="nav-link" href="!ddns.php">
           <i class="fas fa-fw fa-ethernet"></i>
-          <span>DDNS & WireGuard</span></a>
+          <span>DDNS & LINK</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="!nodeMAN.php">
@@ -86,13 +87,8 @@
           <span>注销</span></a>
       </li>
     </ul>
-<script>
-function logout () {
-$.get('auth.php', {logout:'true'}, function(result){ window.location.href="index.php" });
-}
-</script>
 
-    <div id="content-wrapper">
+    <div id="content-wrapper" class="mx-auto" style="max-width: 1600px;">
 
       <div class="container-fluid">
 
@@ -108,10 +104,14 @@ $.get('auth.php', {logout:'true'}, function(result){ window.location.href="index
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-th-list"></i>
-            名单编辑</div>
+            名单编辑
+<span class="float-right mt-n1 mb-n2">
+<button type="button" class="btn btn-outline-secondary btn-sm mt-1" style="border-Radius: 0px;" onclick="submitlistBW()">保存</button>
+</span>
+          </div>
           <div class="card-body">
 
-<div class="form-row mb-3">
+<div class="form-row">
           <div class="col-md-3 form-group">
           <div class="input-group">
           <div class="input-group-prepend">
@@ -119,7 +119,7 @@ $.get('auth.php', {logout:'true'}, function(result){ window.location.href="index
             黑名单域名（走国外线路）<br>
             </span>
           </div>
-            <textarea id="listB" class="form-control" aria-label="listB" rows="32" placeholder="xxoo.com"><?php foreach (json_decode(file_get_contents('/usr/local/bin/0conf'), true)['listB'] as $k => $v) {echo "$k\n";} ?></textarea>
+            <textarea id="listB" class="form-control" aria-label="listB" rows="32" placeholder="域名"><?php foreach (json_decode(file_get_contents('/usr/local/bin/0conf'), true)['listB'] as $k => $v) {echo "$k\n";} ?></textarea>
           </div>
           </div>
 
@@ -130,7 +130,7 @@ $.get('auth.php', {logout:'true'}, function(result){ window.location.href="index
             白名单域名（走国内线路）<br>
             </span>
           </div>
-            <textarea id="listW" class="form-control" aria-label="listW" rows="32" placeholder="xxoo.com"><?php foreach (json_decode(file_get_contents('/usr/local/bin/0conf'), true)['listW'] as $k => $v) {echo "$k\n";} ?></textarea>
+            <textarea id="listW" class="form-control" aria-label="listW" rows="32" placeholder="域名"><?php foreach (json_decode(file_get_contents('/usr/local/bin/0conf'), true)['listW'] as $k => $v) {echo "$k\n";} ?></textarea>
           </div>
           </div>
 
@@ -141,7 +141,7 @@ $.get('auth.php', {logout:'true'}, function(result){ window.location.href="index
             内网设备 黑名单IP（全局走国外线路）<br>
             </span>
           </div>
-            <textarea id="listBlan" class="form-control" aria-label="listBlan" rows="32" placeholder="0.0.0.0"><?php foreach (json_decode(file_get_contents('/usr/local/bin/0conf'), true)['listBlan'] as $k => $v) {echo "$v\n";} ?></textarea>
+            <textarea id="listBlan" class="form-control" aria-label="listBlan" rows="32" placeholder="IP"><?php foreach (json_decode(file_get_contents('/usr/local/bin/0conf'), true)['listBlan'] as $k => $v) {echo "$v\n";} ?></textarea>
           </div>
           </div>
 
@@ -152,31 +152,15 @@ $.get('auth.php', {logout:'true'}, function(result){ window.location.href="index
             内网设备 白名单IP（全局走国内线路）<br>
             </span>
           </div>
-            <textarea id="listWlan" class="form-control" aria-label="listWlan" rows="32" placeholder="0.0.0.0"><?php foreach (json_decode(file_get_contents('/usr/local/bin/0conf'), true)['listWlan'] as $k => $v) {echo "$v\n";} ?></textarea>
+            <textarea id="listWlan" class="form-control" aria-label="listWlan" rows="32" placeholder="IP"><?php foreach (json_decode(file_get_contents('/usr/local/bin/0conf'), true)['listWlan'] as $k => $v) {echo "$v\n";} ?></textarea>
           </div>
           </div>
+<span class="float-left text-secondary">
+  <small>注：一行一个地址<br></small>
+</span>
 </div>
 
-<span class="float-left text-secondary">
-  <small>
-注：一行一个地址<br>
-  </small>
-</span>
 
-<span class="float-right">
-<button type="button" class="btn btn-primary" onclick="submitlistBW()">应用</button>
-</span>
-
-<script>
-function submitlistBW () {
-listB=$("#listB").val();
-listW=$("#listW").val();
-listBlan=$("#listBlan").val();
-listWlan=$("#listWlan").val();
-$.get("saveListBW.php", {listB:listB, listW:listW, listBlan:listBlan, listWlan:listWlan}, function(result){window.location.reload();});
-alert("提交黑白名单。。。");
-}
-</script>
           </div>
           </div>
 
@@ -198,6 +182,19 @@ alert("提交黑白名单。。。");
   </div>
   <!-- /#wrapper -->
 <script> 
+function logout(){
+$.get('auth.php', {logout:'true'}, function(result){ window.location.href="index.php" });
+}
+
+function submitlistBW () {
+listB=$("#listB").val();
+listW=$("#listW").val();
+listBlan=$("#listBlan").val();
+listWlan=$("#listWlan").val();
+$.get("saveListBW.php", {listB:listB, listW:listW, listBlan:listBlan, listWlan:listWlan}, function(result){window.location.reload();});
+alert("提交黑白名单。。。");
+}
+
 window.onload = function() {
 $("body").toggleClass("sidebar-toggled");
 $(".sidebar").toggleClass("toggled");

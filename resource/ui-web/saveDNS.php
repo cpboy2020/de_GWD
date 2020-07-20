@@ -4,7 +4,6 @@
 $DoH1 = $_GET['DoH1'];
 $DoH2 = $_GET['DoH2'];
 $dnsChina = $_GET['dnsChina'];
-$dnsChinaLine = str_replace(PHP_EOL, ' ', $dnsChina);
 
 $hostsCustomize = $_GET['hostsCustomize'];
 $hostsCustomize = str_replace("\t", ' ', $hostsCustomize);
@@ -14,10 +13,11 @@ $arr = explode("\n",$hostsCustomize);
 $arr = array_filter($arr);
 foreach($arr as $k=>$v){
         $arr = explode(',',$v);
-        $hosts[$arr[0]] = $arr[1];
+        $hosts[$arr[1]] = $arr[0];
 }
 
 $data = json_decode(file_get_contents('/usr/local/bin/0conf'), true);
+$dnsChinaLine = str_replace(PHP_EOL, ' ', $dnsChina);
 $data['dns']['china'] = $dnsChinaLine;
 $newJsonString = json_encode($data, JSON_PRETTY_PRINT);
 file_put_contents('/usr/local/bin/0conf', $newJsonString);
@@ -34,18 +34,19 @@ $data['dns']['hosts'] = $hosts;
 $newJsonString = json_encode($data, JSON_PRETTY_PRINT);
 file_put_contents('/usr/local/bin/0conf', $newJsonString);
 
-exec('sudo /usr/local/bin/ui-saveDNSChina');
-exec('sudo systemctl restart smartdns');
+shell_exec('sudo /usr/local/bin/ui-saveDNSChina');
+shell_exec('sudo systemctl restart smartdns');
+shell_exec('sudo systemctl restart doh-client');
 
 $data = json_decode(file_get_contents('/usr/local/bin/0conf'), true);
 if ( $data['DNSsplit'] === "gfw" ){
-	exec('sudo /usr/local/bin/ui-changeNLgfw');
+	shell_exec('sudo /usr/local/bin/ui-dnsGFW');
 } else {
-	exec('sudo /usr/local/bin/ui-changeNLchnw');
+	shell_exec('sudo /usr/local/bin/ui-dnsCHNW');
 }
 
-exec('sudo systemctl restart iptables-proxy');
-exec('sudo systemctl restart doh-client');
-exec('sudo systemctl restart v2dns');
+shell_exec('sudo /usr/local/bin/ui-saveListBW');
+shell_exec('sudo systemctl restart iptables-proxy');
+shell_exec('sudo systemctl restart v2dns');
 ?>
 <?php }?>
