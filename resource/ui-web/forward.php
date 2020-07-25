@@ -12,15 +12,24 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>中转</title>
+<title>中转</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
-
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.min.css" rel="stylesheet">
 
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin.min.js"></script>
+  
 </head>
 
 <body id="page-top" class="sidebar-toggled">
@@ -124,21 +133,21 @@
     <div class="form-row">
       <div class="col-md-3 input-group my-2">
         <div class="input-group-prepend">
-          <span class="input-group-text justify-content-center w-100">域名</span>
+          <span class="input-group-text justify-content-center" style="min-width: 120px;">域名</span>
         </div>
           <input type="text" id="CFdomain" class="form-control" value="<?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->FORWARD->domain ?>">
       </div>
 
       <div class="col-md-5 input-group my-2">
         <div class="input-group-prepend">
-          <span class="input-group-text justify-content-center w-100">CF API KEY</span>
+          <span class="input-group-text justify-content-center" style="min-width: 120px;">CF API KEY</span>
         </div>
           <input type="text" id="CFapikey" class="form-control" value="<?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->FORWARD->APIkey ?>">
       </div>
 
       <div class="col-md-4 input-group my-2">
         <div class="input-group-prepend">
-          <span class="input-group-text justify-content-center w-100">CF E-mail</span>
+          <span class="input-group-text justify-content-center" style="min-width: 120px;">CF E-mail</span>
         </div>
           <input type="text" id="CFemail" class="form-control" value="<?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->FORWARD->Email ?>">
       </div>
@@ -393,17 +402,6 @@ for( let i = 0; i<len; i++){
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin.min.js"></script>
-  <script src="js/jquery.qrcode.min.js"></script>
 
 </body>
 
