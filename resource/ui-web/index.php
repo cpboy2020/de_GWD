@@ -20,17 +20,6 @@
   <link href="css/sb-admin.min.css" rel="stylesheet">
   <link href="css/bootstrap4-toggle.min.css" rel="stylesheet">
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin.min.js"></script>
-  <script src="js/bootstrap4-toggle.min.js"></script>
-
 </head>
 
 <body id="page-top" class="sidebar-toggled">
@@ -294,8 +283,8 @@
             <i class="far fa-compass"></i>
             DNS
           <span class="float-right mt-n1 mb-n2">
-                <button type="button" class="btn btn-<?php echo shell_exec('sudo /usr/local/bin/ui-checkDNSchnw') ?> btn-sm mt-1" style="border-radius: 0px;" onclick="dnsCHNW()">大陆白名单</button>
-                <button type="button" class="btn btn-<?php echo shell_exec('sudo /usr/local/bin/ui-checkDNSgfw') ?> btn-sm mt-1" style="border-radius: 0px;" onclick="dnsGFW()">GFWlist</button>
+                <button type="button" class="btn btn-<?php $DNSchnw = file_get_contents('/usr/local/bin/v2dns/config.json'); if(strpos("$DNSchnw",'geosite:cn') !== false) echo 'success'; else echo 'outline-secondary'; ?> btn-sm mt-1" style="border-radius: 0px;" onclick="dnsCHNW()">大陆白名单</button>
+                <button type="button" class="btn btn-<?php $DNSgfw = file_get_contents('/usr/local/bin/v2dns/config.json'); if(strpos("$DNSgfw",'geolocation-!cn') !== false) echo 'success'; else echo 'outline-secondary'; ?> btn-sm mt-1" style="border-radius: 0px;" onclick="dnsGFW()">GFWlist</button>
                 <button type="button" class="btn btn-outline-secondary btn-sm mt-1" style="border-radius: 0px;" onclick="submitDNS()">提交</button>
           </span>
           </div>
@@ -304,15 +293,31 @@
             <div class="form-row">
               <div class="col-md-4 mt-auto">
 
-              <div class="input-group mt-1 mb-4 ml-4">
+                <div class="form-row ml-4">
+                  <div class="col-md-6 my-auto">
+              <div class="input-group mb-4 mx-auto">
                 <div class="input-group-prepend">
                 <label class="input-group-text">V2去广告</label>
                 </div>
                 <div class="input-group-append">
-                  <button class="btn btn-<?php echo shell_exec('sudo /usr/local/bin/ui-checkV2ad');?>" type="button" onclick="onV2ad()">开启</button>
+                  <button class="btn btn-<?php $v2add = file_get_contents('/usr/local/bin/v2dns/config.json'); if(strpos("$v2add",'category-ads') !== false) echo 'success'; else echo 'secondary'; ?>" type="button" onclick="onV2ad()">开启</button>
                   <button class="btn btn-secondary" type="button" onclick="offV2ad()">关闭</button>
                 </div>
               </div>
+                  </div>
+
+                  <div class="col-md-6 my-auto">
+              <div class="input-group mb-4 mx-auto">
+                <div class="input-group-prepend">
+                <label class="input-group-text">Apple直连</label>
+                </div>
+                <div class="input-group-append">
+                  <button class="btn btn-<?php $apple = file_get_contents('/usr/local/bin/v2dns/config.json'); if(strpos("$apple",'geosite:apple-cn') !== false) echo 'success'; else echo 'secondary'; ?>" type="button" onclick="onAPPLE()">开启</button>
+                  <button class="btn btn-secondary" type="button" onclick="offAPPLE()">关闭</button>
+                </div>
+              </div>
+                  </div>
+                </div>
 
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -564,6 +569,14 @@ function offV2ad(){
 $.get('./act/offV2ad.php', function(result){window.location.reload();});
 }
 
+function onAPPLE(){
+$.get('./act/onAPPLE.php', function(result){window.location.reload();});
+}
+
+function offAPPLE(){
+$.get('./act/offAPPLE.php', function(result){window.location.reload();});
+}
+
 function submitstaticip(){
 staticip1=$('#localip').val();
 staticip2=$('#upstreamip').val();
@@ -652,6 +665,17 @@ checklink();
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin.min.js"></script>
+  <script src="js/bootstrap4-toggle.min.js"></script>
 
 </body>
 
