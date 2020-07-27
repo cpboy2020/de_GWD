@@ -249,7 +249,7 @@
 
 <div id="shnodedt" style="display:<?php echo json_decode(file_get_contents('/usr/local/bin/0conf'))->divertLan->display; ?>">
 <span class="float-left">
-<div class="input-group ml-4 mt-1 mb-4">
+<div class="input-group ml-4 mt-1 mb-1">
   <div class="input-group-prepend">
     <label class="input-group-text">内网设备分流</label>
   </div>
@@ -294,26 +294,26 @@
               <div class="col-md-4 mt-auto">
 
                 <div class="form-row ml-4">
-                  <div class="col-md-6 my-auto">
+                  <div class="my-auto" style="min-width: 175px">
               <div class="input-group mb-4 mx-auto">
                 <div class="input-group-prepend">
-                <label class="input-group-text">V2去广告</label>
+                <label class="input-group-text">去广告</label>
                 </div>
                 <div class="input-group-append">
-                  <button class="btn btn-<?php $v2add = file_get_contents('/usr/local/bin/v2dns/config.json'); if(strpos("$v2add",'category-ads') !== false) echo 'success'; else echo 'secondary'; ?>" type="button" onclick="onV2ad()">开启</button>
-                  <button class="btn btn-secondary" type="button" onclick="offV2ad()">关闭</button>
+                  <button class="btn btn-<?php $v2add = file_get_contents('/usr/local/bin/v2dns/config.json'); if(strpos("$v2add",'category-ads') !== false) echo 'success'; else echo 'secondary'; ?> btn-sm" type="button" onclick="onV2ad()">ON</button>
+                  <button class="btn btn-secondary btn-sm" type="button" onclick="offV2ad()">OFF</button>
                 </div>
               </div>
                   </div>
 
-                  <div class="col-md-6 my-auto">
+                  <div class="my-auto" style="min-width: 200px">
               <div class="input-group mb-4 mx-auto">
                 <div class="input-group-prepend">
                 <label class="input-group-text">Apple直连</label>
                 </div>
                 <div class="input-group-append">
-                  <button class="btn btn-<?php $apple = file_get_contents('/usr/local/bin/v2dns/config.json'); if(strpos("$apple",'geosite:apple-cn') !== false) echo 'success'; else echo 'secondary'; ?>" type="button" onclick="onAPPLE()">开启</button>
-                  <button class="btn btn-secondary" type="button" onclick="offAPPLE()">关闭</button>
+                  <button class="btn btn-<?php $apple = file_get_contents('/usr/local/bin/v2dns/config.json'); if(strpos("$apple",'geosite:apple') !== false) echo 'success'; else echo 'secondary'; ?> btn-sm" type="button" onclick="onAPPLE()">ON</button>
+                  <button class="btn btn-secondary btn-sm" type="button" onclick="offAPPLE()">OFF</button>
                 </div>
               </div>
                   </div>
